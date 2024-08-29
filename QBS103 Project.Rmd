@@ -15,8 +15,8 @@ setwd("/Users/elodierichard/Documents/QBS103/Project Submission 1 Data") #this i
 genes <- read.csv("QBS103_GSE157103_genes.csv") #this is to rename and retrieve the first gene data file
 the_matrix <- read.csv("QBS103_GSE157103_series_matrix.csv") #this is to rename and retrieve the second series matrix data file
 
-head(genes) #this is used to visualize the data and only for 6 rows
-head(the_matrix)
+#head(genes) #this is used to visualize the data and only for 6 rows
+#head(the_matrix)
 ```
 
 ```{r}
@@ -29,6 +29,9 @@ test_genes <- test_genes[-1,] #this removes the first row containing "x" in the 
 ```{r}
 test_genes$participant_id <- row.names(test_genes) #this will move the participant id into it's own column in the table
 combined <- merge(test_genes, the_matrix, by = 'participant_id') #this combines the genes file and matrix file together to create one table that I names "combined"
+```
+```{r}
+#citation(package = 'tidyverse')
 ```
 
 ```{r}
@@ -45,7 +48,7 @@ histogram <- ggplot(combined, aes(x=combined$AAAS)) + #this called on ggplot to 
   labs(title = 'Gene Expression of AAAS', #this labeled the title and the axis
         x= 'Gene: AAAS' , 
         y= 'Frequency of AAAS' )
-plot(histogram)
+#plot(histogram)
 ```
 
 ```{r}
@@ -59,7 +62,7 @@ scatterplot <- ggplot(combined, aes(x= combined$ferritin.ng.ml., y = combined$AA
        x= 'Ferritin Levels (ng/mL)', 
        y= 'Gene Expression of AAAS')
 #for trendline it's geom_smooth
-plot(scatterplot)
+#plot(scatterplot)
 ```
 
 ```{r}
@@ -69,7 +72,7 @@ library(ggplot2)
 scatterplot_practice<- ggplot(combined, aes(x= combined$age, y = combined$AAAS)) + 
   geom_point(bins = 10, color = 'green') +  
   labs(title = 'Gene Expression of AAAS vs. Age' , x= 'Age of Participant (yrs)', y= 'Gene AAAS')
-plot(scatterplot_practice)
+#plot(scatterplot_practice)
 ```
 
 ```{r}
@@ -96,7 +99,7 @@ boxplot <- ggplot(combined, aes(x=icu_status, y = AAAS, fill = mechanical_ventil
        x= 'ICU Status of Participant' , 
        y= 'Gene Expression of AAAS', 
        fill= 'Mechanical Ventilation')
-plot(boxplot)
+#plot(boxplot)
 ```
 
 Submission 2
@@ -108,112 +111,71 @@ Make sure you push your code to your git repository prior to class. As a reminde
 ```{r}
 ## comment out things you don't need anymore
 
-sub_2_plots <- function(data, genes, cat1 , cat2, cont ) { #created a new function with each element defined
+#sub_2_plots <- function(data, genes, cat1 , cat2, cont ) { #created a new function with each element defined
     
-    histogram2 <- ggplot(data, aes_string(x= genes)) + geom_histogram(bins = 20, color = 'navy', fill = 'lightblue') + labs(title = 'Gene Expression', x= 'Gene' , y= 'Frequency of the Gene' )
-    scatterplot2 <- ggplot(data, aes_string(x= cont, y = genes)) + geom_point(bins = 10, color = 'violet') + labs(title = 'Gene Expression vs. Ferritin Levels' , x= 'Ferritin Levels (ng/mL)', y= 'Gene Expression')
-   boxplot2 <- ggplot(data, aes_string(x= cat1, y = genes, fill = cat2)) + geom_boxplot() + scale_fill_manual(values = c('pink','salmon')) + labs(title = 'Gene Expression vs ICU Status and Mechanical Ventilation', x= 'ICU Status of Participant' , y= 'Gene Expression', fill= 'Mechanical Ventilation')
+ #   histogram2 <- ggplot(data, aes_string(x= genes)) + geom_histogram(bins = 20, color = 'navy', fill = 'lightblue') + labs(title = 'Gene Expression', x= 'Gene' , y= 'Frequency of the Gene' )
+ #   scatterplot2 <- ggplot(data, aes_string(x= cont, y = genes)) + geom_point(bins = 10, color = 'violet') + labs(title = 'Gene Expression vs. Ferritin Levels' , x= 'Ferritin Levels (ng/mL)', y= 'Gene Expression')
+ #  boxplot2 <- ggplot(data, aes_string(x= cat1, y = genes, fill = cat2)) + geom_boxplot() + scale_fill_manual(values = c('pink','salmon')) + labs(title = 'Gene Expression vs ICU Status and Mechanical Ventilation', x= 'ICU Status of Participant' , y= 'Gene Expression', fill= 'Mechanical Ventilation')
 
-    plot(histogram2)
-    plot(scatterplot2)
-    plot(boxplot2)
-}
+   # plot(histogram2)
+   # plot(scatterplot2)
+   # plot(boxplot2)
+#}
 
-specific_genes = subset(combined, select = c("AAAS", "AACS", "ABCA13")) #this is to subset the data table so that it only runs through the chosen genes and not every gene in the table
+#specific_genes = subset(combined, select = c("AAAS", "AACS", "ABCA13")) #this is to subset the data table so that it only runs through the chosen genes and not every gene in the table
 ### had to be sure to make these chosen genes as.numeric so that it would run through
-for (gene in colnames(specific_genes)) { #created a for loop to run through every gene chosen in the newly created subset of the data
-  print(gene)
-  print(combined[,gene]) # this will grab each row and the gene columns specifically
-  sub_2_plots(combined, gene , cat1 = "icu_status", cat2 = "mechanical_ventilation", cont = "ferritin.ng.ml.")} #defined each of the variables from the function above so that it would plot
+#for (gene in colnames(specific_genes)) { #created a for loop to run through every gene chosen in the newly created subset of the data
+ # print(gene)
+ # print(combined[,gene]) # this will grab each row and the gene columns specifically
+ # sub_2_plots(combined, gene , cat1 = "icu_status", cat2 = "mechanical_ventilation", cont = "ferritin.ng.ml.")} #defined each of the variables from the function above so that it would plot
 
  # sub_2_plots(combined, "AAAS", cat1 = "icu_status", cat2 = "mechanical_ventilation", cont = "ferritin.ng.ml.")
 ```
 
 
-
+FINAL SUBMISSION
 Generate a table formatted in LaTeX of summary statistics for all the covariates you looked at and 2 additional continuous (3 total) and 1 additional categorical variable (3 total). (5 pts)
 Stratifying by one of your categorical variables
 Tables should report n (%) for categorical variables
 Tables should report mean (sd) or median [IQR] for continuous variables
-```{r}
-#na.omit(combined)
-sd(na.omit(combined$icu_status)[combined$icu_status == 'yes' & combined$icu_status == 'no'])
-mean(na.omit(combined$icu_status)[combined$icu_status == 'yes' & combined$icu_status == 'no'])
-```
-
 
 
 ```{r}
-library(tidyverse)
-library(knitr) # for base kable function
-library(kableExtra) # for formatting 
-
-#mean_ferritin <- 833.5
-#sd_ferritin <- 1042.798
-#mean_procalcitonin <- 3.08
-#sd_procalcitonin <- 9.788764
-#mean_lactate <- 1.46
-#sd_lactate <- 1.167462
-
-
-
-# Define Table
-table1 <- data.frame('Ferritin' = c('mean (sd)','Sex n (%)',
-                                    "Female","Male"),
-                     "Value" = c('35 (2)','','10 (25.0)','30 (75.0)'))
-table1
-# Print table using kable, will only show once knitted because it's LaTeX format
-tab <- kable(x = table1, caption = 'Summary Table',
-             format = 'latex',booktabs = T,
-             col.names = c("Variable", "n = 40"),
-             align = c('l','r'),escape = T) %>%
-  add_indent(positions = c(3,4),level_of_indent = 1)
-tab
-
-source('TableOne.R')
-
-# Define data set to use
-#set.seed(3927)
-randomData <- data.frame(ferritin.ng.ml. = rnorm(n = 1000,mean = 833.5,sd = 1042.798),
-                         procalcitonin.ng.ml = rnorm(n = 1000, mean = 3.08,sd = 9.788764),
-                         lactate.mmol.l = rexp(n = 1000,rate = 0.25),
-                         Cat1 = factor(rbinom(n = 1000,size = 1,prob = 0.50),
-                                       labels = c(F,T)),
-                         Cat2 = factor(rbinom(n = 1000,size = 1,prob = 0.25),
-                                       labels = c(F,T)),
-                         Cat3 = factor(rbinom(n = 1000,size = 2,prob = 0.40),
-                                       labels = c('A','B','C')))
-
-
-#buildTableOne(data = randomData,varList = c('Cont1','Cont2','Cat1','Cont3','Cat2','Cat3'),
-            #  nonnormVars = 'Cont3',catVars = c('Cat1','Cat2','Cat3'))
-```
-
-```{r}
-install.packages("tableone")
+#install.packages("tableone") #install the tableone packages
 library(tableone)
+
+#citation(package = 'tableone') #to get the citation 
 ```
 
 ```{r}
-combined$procalcitonin.ng.ml.. <- as.numeric(combined$procalcitonin.ng.ml..) 
+#making these columns/variables numeric
+combined$procalcitonin.ng.ml.. <- as.numeric(combined$procalcitonin.ng.ml..)  
 combined$lactate.mmol.l. <- as.numeric(combined$lactate.mmol.l.) 
+
+#creating a table with the data from 'combined' dataset and then pulling out the variables wanted for the table and what it should be stratified by
 project_table <- CreateTableOne(data = combined, vars = c('ferritin.ng.ml.', 'procalcitonin.ng.ml..', 'lactate.mmol.l.', 'icu_status', 'sex'), strata = 'mechanical_ventilation' )
 #print(project_table)
+#the nonnormal is meant for the variables that don't have a normal distribution
 project_table1 <- print(project_table, showAllLevels = T, nonnormal = c('ferritin.ng.ml.','procalcitonin.ng.ml..', 'lactate.mmol.l.'))
-write.csv(project_table1, '/Users/elodierichard/Documents/QBS103/Project_Table1.csv')
+#making the file csv so it can be uploaded into overleaf
+#write.csv(project_table1, '/Users/elodierichard/Documents/QBS103/Project_Table1.csv')
 #table1(~ferritin.ng.ml. + procalcitonin.ng.ml.. + lactate.mmol.l. + icu_status + mechanical_ventilation)
 ```
 
 #Generate final a publication quality  histogram, scatter plot, and boxplot from submission 1 (i.e. only for your first gene of interest)  (5 pts)
+```{r}
+#citation(package = 'ggplot2') #inorder to cite ggplot
+```
 
 ```{r}
-library(ggplot2)
-setwd("/Users/elodierichard/Documents/QBS103/Project Submission 1 Data")
+#library(ggplot2)
+#setwd("/Users/elodierichard/Documents/QBS103/Project Submission 1 Data")
 
+#used the function for loop from submission 2 but only used it for gene AAAS instead of 3 total genes
 sub_2_plots <- function(data, genes, cat1 , cat2, cont ) { #created a new function with each element defined
     
-    histogram2 <- ggplot(data, aes_string(x= genes)) + geom_histogram(bins = 20, color = 'navy', fill = 'lightblue') + labs(title = 'Gene Expression of AAAS', x= 'Gene AAAS' , y= 'Frequency of the AAAS' )
-    scatterplot2 <- ggplot(data, aes_string(x= cont, y = genes)) + geom_point(bins = 10, color = 'violet') + labs(title = 'Gene Expression of AAAS vs. Ferritin Levels' , x= 'Ferritin Levels (ng/mL)', y= 'Gene Expression of AAAS')
+    histogram2 <- ggplot(data, aes_string(x= genes)) + geom_histogram(bins = 20, color = 'salmon', fill = 'pink') + labs(title = 'Gene Expression of AAAS', x= 'Gene AAAS' , y= 'Frequency of the AAAS' )
+    scatterplot2 <- ggplot(data, aes_string(x= cont, y = genes)) + geom_point(bins = 10, color = 'salmon') + labs(title = 'Gene Expression of AAAS vs. Ferritin Levels' , x= 'Ferritin Levels (ng/mL)', y= 'Gene Expression of AAAS')
    boxplot2 <- ggplot(data, aes_string(x= cat1, y = genes, fill = cat2)) + geom_boxplot() + scale_fill_manual(values = c('pink','salmon')) + labs(title = 'Gene Expression of AAAS vs ICU Status and Mechanical Ventilation', x= 'ICU Status of Participant' , y= 'Gene Expression of AAAS', fill= 'Mechanical Ventilation')
 
     plot(histogram2)
@@ -221,6 +183,7 @@ sub_2_plots <- function(data, genes, cat1 , cat2, cont ) { #created a new functi
     plot(boxplot2)
 }
 
+#this is just choosing one gene
 specific_genes = subset(combined, select = c("AAAS")) #this is to subset the data table so that it only runs through the chosen genes and not every gene in the table
 ### had to be sure to make these chosen genes as.numeric so that it would run through
 for (gene in colnames(specific_genes)) { #created a for loop to run through every gene chosen in the newly created subset of the data
@@ -237,14 +200,16 @@ Include tracking bars for the 2 categorical covariates in your boxplot
 Heatmaps should include clustered rows and columns
 
 ```{r}
-install.packages('pheatmap')
+#install.packages('pheatmap')
 library(pheatmap)
+
+#citation(package = 'pheatmap')
 ```
 
 ```{r}
 
 #head(select(participant_id, AAAS, AACS, AAGAB, AAK1, AAMDC, AAMP, AANAT, AAR2, AARS1, AARS2))
-
+#making all the selected genes numeric
 combined$AAGAB <- as.numeric(combined$AAGAB) 
 combined$AAK1 <- as.numeric(combined$AAK1) 
 combined$AAMDC <- as.numeric(combined$AAMDC) 
@@ -256,82 +221,65 @@ combined$AAAS <- as.numeric(combined$AAAS)
 combined$AACS <- as.numeric(combined$AACS)
 combined$AARS2 <- as.numeric(combined$AARS2) 
 
-head(combined)
+#head(combined)
 
 #new_combined(combined) <- c('AAAS', 'AACS', 'AAGAB', 'AAK1', 'AAMDC', 'AAMP', 'AANAT', 'AAR2', 'AARS1', 'AARS2')
 
 ```
+
 ```{r}
-# Generate heatmap without clustering
-#heatmap_asnumeric <- as.numeric(combined$[2:11] margin=2, ) 
 
-###before adding annotations
+combined_df <- data.frame(combined[,c('AAAS', 'AACS', 'AAGAB', 'AAK1', 'AAMDC', 'AAMP', 'AANAT', 'AAR2', 'AARS1', 'AARS2')]) #creating a data frame with the new information
+ 
+#new data frame with labeled ICU Status from the column same for mechanical ventilation
+annotationData <- data.frame(ICU_Status =combined$icu_status , 
+                             Mechanical_Ventilation= combined$mechanical_ventilation, 
+                             row.names = row.names(combined_df)
+                             )
 
-#pheatmap(combined[,c('AAAS', 'AACS', 'AAGAB', 'AAK1', 'AAMDC', 'AAMP', 'AANAT', 'AAR2', 'AARS1', 'AARS2')],
-       #  show_rownames = F,
-       #  cluster_rows = T,
-        # cluster_cols = T)
-```
-```{r}
-#annotationData <- data.frame(row.names = colnames(combined_df),
-                            # 'Gene' = c(factor(rbinom(n = 25,size = 1,prob = 0.6),
-                                      #           labels = c('ICU Status','Mechanical Ventilation'))))
-
-combined_df <- data.frame(combined[,c('AAAS', 'AACS', 'AAGAB', 'AAK1', 'AAMDC', 'AAMP', 'AANAT', 'AAR2', 'AARS1', 'AARS2')])
-
-annotationData <- data.frame(ICU_Status =combined$icu_status ,Mechanical_Ventilation= combined$mechanical_ventilation, row.names = row.names(combined_df))
-row.names(combined_df) <- row.names(combined)
+row.names(combined_df) <- row.names(combined) #making the row names from this data
 row.names(annotationData) <- row.names(combined)
 
-
-annotationColors <- list(ICU_Status= c(' yes' = 'aquamarine4',
-                                    ' no' = 'deepskyblue4'),
-                         Mechanical_Ventilation= c(' yes' = 'cyan',
-                                                   ' no' = 'blue')
+#coloring the icu and mechanical ventilation with the colors, be sure to put space between yes and no because it wasn't working because that's how the data was appearing
+annotationColors <- list(ICU_Status= c(' yes' = 'orange',
+                                    ' no' = 'salmon'),
+                         Mechanical_Ventilation= c(' yes' = 'pink',
+                                                   ' no' = 'hotpink')
                          )
 
-combined$icu_status 
+#combined$icu_status 
+
 pheatmap(combined_df,
          show_rownames = F,
          cluster_rows = T,
          cluster_cols = T,
-         annotation_row = annotationData,
+         annotation_row = annotationData, #be sure this is not annotation_col
          annotation_colors = annotationColors
          )
 ```
 
 Going through the documentation for ggplot2, generate a plot type that we did not previously discuss in class that describes your data in a new and unique way (5 pts) 
+
+```{r}
+#citation(package = 'hexbin') #citation for the new plot
+```
+
 ```{r}
 #look through ggplot to find cool new ways
-install.packages('hexbin')
+#install.packages('hexbin')
 library(ggplot2)
+
 #similar process to histogram and scatterplot with a few adjustments
-new_plot <- ggplot(combined, aes(x=icu_status, y = AAAS, fill = mechanical_ventilation)) + #need to add a fill to demonstrate the age range depending on gene expression and if ICU status
-  geom_hex() + #to generate a box plot use geom_boxplot
+new_plot <- ggplot(combined, aes(x=icu_status, y = AAAS, fill = disease_status)) + #need to add a fill to demonstrate the disease status range depending on gene expression and if ICU status
+  geom_hex() + #to generate a hexbin use geom_hex
   scale_fill_manual(values = c('pink','salmon')) +
-  labs(title = 'Gene Expression of AAAS vs ICU Status and Mechanical Ventilation',  #to label each attribute of the boxplot
+  labs(title = 'Gene Expression of AAAS vs ICU Status and Disease Status',  #to label each attribute of the plot
        x= 'ICU Status of Participant' , 
        y= 'Gene Expression of AAAS', 
-       fill= 'Mechanical Ventilation')
+       fill= 'Disease Status')
 plot(new_plot)
 ```
-```{r}
-#look through ggplot to find cool new ways
-#install.packages('ggbeeswarm')
-library(ggplot2)
-library(reshape2)
-#similar process to histogram and scatterplot with a few adjustments
-new_plot <- combined(combined[, c('icu_status','mechanical ventilation')], id='AAAS')
-ggplot(new_plot) + geom_line(aes((x=status, y = AAAS, fill = variable)) + labs(title= 'Gene Expression')
-#new_plot <- melt(combined, aes(x=icu_status, y = AAAS, fill = mechanical_ventilation)) + #need to add a fill to demonstrate the age range depending on gene expression and if ICU status
- # geom_b() + #to generate a box plot use geom_boxplot
- # scale_fill_manual(values = c('pink','salmon')) +
- # labs(title = 'Gene Expression of AAAS vs ICU Status and Mechanical Ventilation',  #to label each attribute of the boxplot
-  #     x= 'ICU Status of Participant' , 
-   #    y= 'Gene Expression of AAAS', 
-     #  fill= 'Mechanical Ventilation')
-plot(new_plot)
-```
+
 
 Submit a LaTeX file and knitted PDF file summarizing your results (20 pts total). This file should include the following sections:
 Table of summary statistics
